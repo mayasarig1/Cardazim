@@ -1,0 +1,23 @@
+import socket
+import sys
+
+def run_server(ip, port):
+    serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serv.bind((ip, port))
+    serv.listen(5)
+    while True:
+        conn, addr = serv.accept()
+        from_client = ''
+        while True:
+            data_length_bytes = conn.recv(4)
+            data_length = int.from_bytes(data_length_bytes, 'little')
+            data = conn.recv(data_length)
+            if not data: break
+            from_client += data.decode('utf8')
+            print (f'From client: {from_client}')
+        conn.close()
+
+if __name__ == "__main__":
+    ip = sys.argv[1]
+    port = int(sys.argv[2])
+    run_server(ip, port)
