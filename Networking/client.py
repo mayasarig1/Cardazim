@@ -4,7 +4,6 @@ import sys
 def send_data(ip, port, data):
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect((ip, port))
-    print(len(data))
     client.sendall(len(data).to_bytes(4, 'little'))
     client.send(data)
     client.close()
